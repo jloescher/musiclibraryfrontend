@@ -51,15 +51,25 @@ const AddSongForm = ({ selectedSong }) => {
     }
   };
 
+  const handleClear = async (e) => {
+    e.preventDefault()
+    setId(null);
+    setTitle('');
+    setArtist('');
+    setAlbum('');
+    setGenre('');
+    setLength(0);
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-4 items-start">
       <label htmlFor="title">Title:</label>
       <input
         type="text"
         id="title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="px-2 py-1 border rounded"
+        className="px-2 py-1 border rounded w-full"
         required
       />
 
@@ -69,7 +79,7 @@ const AddSongForm = ({ selectedSong }) => {
         id="artist"
         value={artist}
         onChange={(e) => setArtist(e.target.value)}
-        className="px-2 py-1 border rounded"
+        className="px-2 py-1 border rounded w-full"
         required
       />
 
@@ -79,7 +89,7 @@ const AddSongForm = ({ selectedSong }) => {
         id="album"
         value={album}
         onChange={(e) => setAlbum(e.target.value)}
-        className="px-2 py-1 border rounded"
+        className="px-2 py-1 border rounded w-full"
         required
       />
 
@@ -89,23 +99,28 @@ const AddSongForm = ({ selectedSong }) => {
         id="genre"
         value={genre}
         onChange={(e) => setGenre(e.target.value)}
-        className="px-2 py-1 border rounded"
+        className="px-2 py-1 border rounded w-full"
         required
       />
 
-      <label htmlFor="length">Length:</label>
+      <label htmlFor="length">Length (in Seconds):</label>
       <input
-        type="number"
+        type="text"
         id="length"
         value={length}
         onChange={(e) => setLength(parseInt(e.target.value))}
-        className="px-2 py-1 border rounded"
+        className="px-2 py-1 border rounded w-full"
         required
       />
+      <div className='flex flex-row space-x-4'>
+        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
+          Add/Update Song
+        </button>
 
-      <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
-        Add Song
-      </button>
+        <button type="reset" onClick={handleClear} className="px-4 py-2 bg-red-600 text-white rounded">
+          Clear
+        </button>
+      </div>
     </form>
   );
 };

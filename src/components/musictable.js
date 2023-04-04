@@ -6,14 +6,30 @@ const MusicTable = (props) => {
   const [musicData, setMusicData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/music/')
-      .then(response => setMusicData(response.data))
-      .catch(error => console.log(error));
+    const fetchData = async () => {
+      const result = await axios('http://localhost:8000/api/music/');
+      setMusicData(result.data);
+    };
+
+    fetchData();
   }, []);
 
   const handleEdit = (song) => {
     props.onSongSelect(song)
   };
+
+  useEffect(() => {
+    const updateData = async () => {
+      const result = await axios.get('http://localhost:8000/api/music/')
+      setMusicData(result.data)
+    }
+
+    const interval = setInterval(() => {
+      updateData()
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [musicData])
 
   return (
     <div className="w-full max-w-4xl mx-auto mt-8">
@@ -38,7 +54,7 @@ const MusicTable = (props) => {
               <td className="px-4 py-2">{song.album}</td>
               <td className="px-4 py-2">{song.genre}</td>
               <td className="px-4 py-2">{song.release_date}</td>
-              <td className="px-4 py-2">{song.length}</td>
+              <td className="px-4 py-2">{((song.length) / 60).toFixed(2)}</td>
               <td className="px-4 py-2">
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
