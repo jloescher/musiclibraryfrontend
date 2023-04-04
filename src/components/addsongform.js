@@ -1,29 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const AddSongForm = () => {
+const AddSongForm = ({ selectedSong }) => {
+  const [id, setId] = useState(null);
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
   const [album, setAlbum] = useState('');
   const [genre, setGenre] = useState('');
   const [length, setLength] = useState(0);
 
+  useEffect(() => {
+    if (selectedSong) {
+      setId(selectedSong.id)
+      setTitle(selectedSong.title)
+      setArtist(selectedSong.artist)
+      setAlbum(selectedSong.album)
+      setGenre(selectedSong.genre)
+      setLength(selectedSong.length)
+    };
+  }, [selectedSong]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/api/music/', {
-        title,
-        artist,
-        album,
-        genre,
-        length,
-      });
+      if (id) {
+        await axios.put(`http://localhost:8000/api/music/${id}/`, {
+          title,
+          artist,
+          album,
+          genre,
+          length,
+        });
+      } else {
+        await axios.post('http://localhost:8000/api/music/', {
+          title,
+          artist,
+          album,
+          genre,
+          length,
+        });
+      }
       setTitle('');
       setArtist('');
       setAlbum('');
       setGenre('');
       setLength(0);
-      alert('Song added successfully!');
+      alert('Song added/updated successfully!');
     } catch (err) {
       alert(`Error: ${err.message}`);
     }
