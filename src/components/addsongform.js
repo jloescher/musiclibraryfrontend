@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import 'react-datepicker/dist/react-datepicker.css';
+
+// TODO: As a music enthusiast, I want to be able to filter the table of music by album, artist, genre, release date, or title.  
+
+
 const AddSongForm = ({ selectedSong }) => {
   const [id, setId] = useState(null);
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
   const [album, setAlbum] = useState('');
   const [genre, setGenre] = useState('');
+  const [releaseDate, setReleaseDate] = useState('');
   const [length, setLength] = useState(0);
 
   useEffect(() => {
@@ -16,6 +22,7 @@ const AddSongForm = ({ selectedSong }) => {
       setArtist(selectedSong.artist)
       setAlbum(selectedSong.album)
       setGenre(selectedSong.genre)
+      setReleaseDate(selectedSong.release_date)
       setLength(selectedSong.length)
     };
   }, [selectedSong]);
@@ -29,6 +36,7 @@ const AddSongForm = ({ selectedSong }) => {
           artist,
           album,
           genre,
+          release_date: releaseDate,
           length,
         });
       } else {
@@ -37,6 +45,7 @@ const AddSongForm = ({ selectedSong }) => {
           artist,
           album,
           genre,
+          release_date: releaseDate,
           length,
         });
       }
@@ -44,6 +53,7 @@ const AddSongForm = ({ selectedSong }) => {
       setArtist('');
       setAlbum('');
       setGenre('');
+      setReleaseDate('')
       setLength(0);
       alert('Song added/updated successfully!');
     } catch (err) {
@@ -58,6 +68,7 @@ const AddSongForm = ({ selectedSong }) => {
     setArtist('');
     setAlbum('');
     setGenre('');
+    setReleaseDate('')
     setLength(0);
   }
 
@@ -102,6 +113,23 @@ const AddSongForm = ({ selectedSong }) => {
         className="px-2 py-1 border rounded w-full"
         required
       />
+      <label htmlFor="release_date">Release Date:</label>
+      <input
+        type="text"
+        id="release_date"
+        value={releaseDate}
+        onChange={(e) => setReleaseDate(e.target.value)}
+        className="px-2 py-1 border rounded w-full"
+        required
+      />
+
+      {/* TODO: Need to identify why the DatePicker Breaks the API submission <DatePicker
+        id="release_date"
+        selected={releaseDate}
+        onChange={(date) => setReleaseDate(moment(date).format("YYYY-MM-DD"))}
+        dateFormat={FORMAT}
+        className="px-2 py-1 border rounded w-full"
+      /> */}
 
       <label htmlFor="length">Length (in Seconds):</label>
       <input

@@ -31,6 +31,15 @@ const MusicTable = (props) => {
     return () => clearInterval(interval)
   }, [musicData])
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/music/${id}/`);
+      alert('Song deleted successfully!');
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    }
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto mt-8">
       <table className="w-full table-auto">
@@ -61,6 +70,14 @@ const MusicTable = (props) => {
                   onClick={() => handleEdit(song)}
                 >
                   Edit
+                </button>
+              </td>
+              <td className="px-4 py-2">
+                <button
+                  onClick={() => handleDelete(song.id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded"
+                >
+                  Delete
                 </button>
               </td>
             </tr>
