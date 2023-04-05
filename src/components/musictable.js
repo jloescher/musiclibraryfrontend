@@ -1,33 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import SongRow from './songrow';
 
-const MusicTable = (props) => {
-
-  const [musicData, setMusicData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios('http://localhost:8000/api/music/');
-      setMusicData(result.data);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const updateData = async () => {
-      const result = await axios.get('http://localhost:8000/api/music/')
-      setMusicData(result.data)
-    }
-
-    const interval = setInterval(() => {
-      updateData()
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [musicData])
-
+const MusicTable = ({ songs, setSongs, setEditSong, setSelectedSong, onSongSelect, onDelete }) => {
   return (
     <div className="w-full max-w-4xl mx-auto mt-8">
       <table className="w-full table-auto">
@@ -44,8 +18,16 @@ const MusicTable = (props) => {
           </tr>
         </thead>
         <tbody>
-          {musicData.map((song) => (
-            <SongRow selectedSong={song} />
+          {songs.map((song) => (
+            <SongRow
+              key={song.id}
+              song={song}
+              setSongs={setSongs}
+              setEditSong={setEditSong}
+              setSelectedSong={setSelectedSong}
+              onSongSelect={onSongSelect}
+              onDelete={onDelete}
+            />
           ))}
         </tbody>
       </table>
