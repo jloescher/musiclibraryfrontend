@@ -75,7 +75,7 @@ const MusicTable = (props) => {
               key={song.id}
               song={song}
               setSelectedSong={props.setSelectedSong}
-              setIsModalOpen={setIsModalOpen}
+              setEditSong={setEditSong}
             />
           ))}
         </tbody>
