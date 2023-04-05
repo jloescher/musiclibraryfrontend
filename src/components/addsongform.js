@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import 'react-datepicker/dist/react-datepicker.css';
+
 // TODO: As a music enthusiast, I want to be able to filter the table of music by album, artist, genre, release date, or title.  
 
 

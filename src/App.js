@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import './App.css';
+<<<<<<< HEAD
 import FilterData from './components/filterdata';
 import MusicTable from './components/musictable';
 import AddSongForm from './components/addsongform';
 import EditSongModal from './components/editsongmodal';
+=======
+import AppHeader from './components/appheader';
+import Card from './components/card';
+import AddSongForm from './components/addsongform';
+import MusicTable from './components/musictable';
+>>>>>>> parent of c0ef232 (Working on filter function)
 
 function App() {
   const [songs, setSongs] = useState([]);
@@ -36,6 +43,7 @@ function App() {
 
   return (
     <div className="App">
+<<<<<<< HEAD
       <h1>Song Library</h1>
       <FilterData filter={filter} setFilter={setFilter} />
       <MusicTable
@@ -48,6 +56,20 @@ function App() {
       <button onClick={() => setShowAddModal(true)}>Add Song</button>
       {showAddModal && <AddSongForm addSong={addSong} setShowAddModal={setShowAddModal} />}
       {showEditModal && <EditSongModal editSongData={editSongData} setShowEditModal={setShowEditModal} editSong={editSong} />}
+=======
+      <AppHeader title="Music Library" />
+      <div className='flex flex-row space-x-4 items-stretch justify-center pt-4'>
+        <Card width="w-1/3">
+          <AddSongForm selectedSong={selectedSong} />
+        </Card>
+        <Card width="w-1/2">
+          <MusicTable onSongSelect={handleSongSelect} />
+        </Card>
+      </div>
+
+
+
+>>>>>>> parent of c0ef232 (Working on filter function)
     </div>
   );
 }

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+<<<<<<< HEAD
 import FilterData from './filterdata';
 import SongRow from './songrow';
 import EditSongModal from './editsongmodal';
+=======
+>>>>>>> parent of c0ef232 (Working on filter function)
 
 const MusicTable = (props) => {
   const [musicData, setMusicData] = useState([]);
@@ -25,6 +28,7 @@ const MusicTable = (props) => {
     fetchData();
   }, []);
 
+<<<<<<< HEAD
   const filterData = (data) => {
     const filteredData = musicData.filter((song) => {
       const { album, artist, genre, releaseDate, title } = filterOptions;
@@ -38,6 +42,17 @@ const MusicTable = (props) => {
     });
     setMusicData(filteredData);
   };
+=======
+  const handleEdit = (song) => {
+    props.onSongSelect(song)
+  };
+
+  useEffect(() => {
+    const updateData = async () => {
+      const result = await axios.get('http://localhost:8000/api/music/')
+      setMusicData(result.data)
+    }
+>>>>>>> parent of c0ef232 (Working on filter function)
 
   const resetFilter = () => {
     setMusicData([]);
@@ -46,6 +61,15 @@ const MusicTable = (props) => {
       setMusicData(result.data);
     };
     fetchData();
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/music/${id}/`);
+      alert('Song deleted successfully!');
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    }
   };
 
   return (
@@ -71,12 +95,39 @@ const MusicTable = (props) => {
         </thead>
         <tbody>
           {musicData.map((song) => (
+<<<<<<< HEAD
             <SongRow
               key={song.id}
               song={song}
               setSelectedSong={props.setSelectedSong}
               setEditSong={setEditSong}
             />
+=======
+            <tr key={song.id} className="bg-white border-b">
+              <td className="px-4 py-2">{song.title}</td>
+              <td className="px-4 py-2">{song.artist}</td>
+              <td className="px-4 py-2">{song.album}</td>
+              <td className="px-4 py-2">{song.genre}</td>
+              <td className="px-4 py-2">{song.release_date}</td>
+              <td className="px-4 py-2">{((song.length) / 60).toFixed(2)}</td>
+              <td className="px-4 py-2">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => handleEdit(song)}
+                >
+                  Edit
+                </button>
+              </td>
+              <td className="px-4 py-2">
+                <button
+                  onClick={() => handleDelete(song.id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+>>>>>>> parent of c0ef232 (Working on filter function)
           ))}
         </tbody>
       </table>
