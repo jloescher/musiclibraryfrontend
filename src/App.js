@@ -4,6 +4,7 @@ import AppHeader from './components/appheader';
 import Card from './components/card';
 import AddSongForm from './components/addsongform';
 import MusicTable from './components/musictable';
+import FilterData from './components/filterdata';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <div className='flex flex-row space-x-4 items-stretch justify-center pt-4'>
         <Card width="w-1/3">
           <AddSongForm selectedSong={selectedSong} />
+          <FilterData onSongSelect={handleSongSelect} />
         </Card>
         <Card width="w-1/2">
           <MusicTable onSongSelect={handleSongSelect} />

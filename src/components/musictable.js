@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import SongRow from './songrow';
 
 const MusicTable = (props) => {
 
@@ -14,10 +15,6 @@ const MusicTable = (props) => {
     fetchData();
   }, []);
 
-  const handleEdit = (song) => {
-    props.onSongSelect(song)
-  };
-
   useEffect(() => {
     const updateData = async () => {
       const result = await axios.get('http://localhost:8000/api/music/')
@@ -30,15 +27,6 @@ const MusicTable = (props) => {
 
     return () => clearInterval(interval)
   }, [musicData])
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8000/api/music/${id}/`);
-      alert('Song deleted successfully!');
-    } catch (err) {
-      alert(`Error: ${err.message}`);
-    }
-  };
 
   return (
     <div className="w-full max-w-4xl mx-auto mt-8">
@@ -57,30 +45,7 @@ const MusicTable = (props) => {
         </thead>
         <tbody>
           {musicData.map((song) => (
-            <tr key={song.id} className="bg-white border-b">
-              <td className="px-4 py-2">{song.title}</td>
-              <td className="px-4 py-2">{song.artist}</td>
-              <td className="px-4 py-2">{song.album}</td>
-              <td className="px-4 py-2">{song.genre}</td>
-              <td className="px-4 py-2">{song.release_date}</td>
-              <td className="px-4 py-2">{((song.length) / 60).toFixed(2)}</td>
-              <td className="px-4 py-2">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => handleEdit(song)}
-                >
-                  Edit
-                </button>
-              </td>
-              <td className="px-4 py-2">
-                <button
-                  onClick={() => handleDelete(song.id)}
-                  className="px-4 py-2 bg-red-500 text-white rounded"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
+            <SongRow selectedSong={song} />
           ))}
         </tbody>
       </table>
