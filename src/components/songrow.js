@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const SongRow = ({ props, selectedSong }) => {
 
-  const handleEdit = (props) => {
+  const handleEdit = (selectedSong) => {
     props.onSongSelect(selectedSong)
   };
 
