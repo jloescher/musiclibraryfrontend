@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 
-const FilterData = ({ setFilteredData }) => {
+const FilterData = ({ filterOptions, setFilterOptions, filterData }) => {
   const [filter, setFilter] = useState({
-    album: '',
-    artist: '',
-    genre: '',
-    release_date: '',
-    title: '',
+    album: "",
+    artist: "",
+    genre: "",
+    releaseDate: "",
+    title: ""
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFilteredData(filter);
+    setFilterOptions(filter);
   };
 
   const handleChange = (e) => {
@@ -67,7 +67,7 @@ const FilterData = ({ setFilteredData }) => {
           type="date"
           id="release_date"
           name="release_date"
-          value={filter.release_date}
+          value={filter.releaseDate}
           onChange={handleChange}
           className="px-2 py-1 border rounded"
         />

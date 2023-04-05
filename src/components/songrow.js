@@ -1,48 +1,27 @@
 import React from 'react';
-import axios from 'axios';
 
-const SongRow = ({ props, rowSelectedSong }) => {
 
-  const handleEdit = (props, rowSelectedSong) => {
-    props.onSongSelect(rowSelectedSong)
-  };
+const SongRow = ({ song, setEditSong, onDelete, isOpen, setIsModalOpen }) => {
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8000/api/music/${id}/`);
-      alert('Song deleted successfully!');
-    } catch (err) {
-      alert(`Error: ${err.message}`);
-    }
+  const handleEdit = (song) => {
+    setIsModalOpen(!isOpen);
+    setEditSong(song)
   };
 
   return (
-    <tr>
-      <td className="px-6 py-4 whitespace-nowrap">{rowSelectedSong.title}</td>
-      <td className="px-6 py-4 whitespace-nowrap">{rowSelectedSong.artist}</td>
-      <td className="px-6 py-4 whitespace-nowrap">{rowSelectedSong.album}</td>
-      <td className="px-6 py-4 whitespace-nowrap">{rowSelectedSong.genre}</td>
-      <td className="px-6 py-4 whitespace-nowrap">{rowSelectedSong.release_date}</td>
-      <td className="px-6 py-4 whitespace-nowrap">{rowSelectedSong.length}</td>
-
-      <td className="px-4 py-2">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => handleEdit(props.rowSelectedSong)}
-        >
-          Edit
-        </button>
-      </td>
-      <td className="px-4 py-2">
-        <button
-          onClick={() => handleDelete(props.rowSelectedSong.id)}
-          className="px-4 py-2 bg-red-500 text-white rounded"
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
+    <>
+      <tr>
+        <td>{song.title}</td>
+        <td>{song.artist}</td>
+        <td>{song.album}</td>
+        <td>{song.genre}</td>
+        <td>{song.release_date}</td>
+        <td>{((song.length) / 60).toFixed(2)}</td>
+        <td><button onClick={() => handleEdit(song)}>Edit</button></td>
+        <td><button onClick={() => onDelete(song.id)}>Delete</button></td>
+      </tr>
+    </>
   );
-};
+}
 
 export default SongRow;

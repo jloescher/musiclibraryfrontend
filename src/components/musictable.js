@@ -1,39 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import FilterData from './filterdata';
 import SongRow from './songrow';
+import EditSongModal from './editsongmodal';
 
-const MusicTable = (filteredData, props) => {
-
+const MusicTable = (props) => {
   const [musicData, setMusicData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [handleEdit, setHandleEdit] = useState();
+  const [editSong, setEditSong] = useState();
+  const [filterOptions, setFilterOptions] = useState({
+    album: '',
+    artist: '',
+    genre: '',
+    releaseDate: '',
+    title: ''
+  });
 
   useEffect(() => {
-    if (filteredData > 0) {
-      setMusicData(filteredData)
-    } else {
-      const fetchData = async () => {
-        const result = await axios('http://localhost:8000/api/music/');
-        setMusicData(result.data);
-      };
+    const fetchData = async () => {
+      const result = await axios('http://localhost:8000/api/music/');
+      setMusicData(result.data);
+    };
+    fetchData();
+  }, []);
 
-      fetchData();
-    }
-  }, [filteredData]);
+  const filterData = (data) => {
+    const filteredData = musicData.filter((song) => {
+      const { album, artist, genre, releaseDate, title } = filterOptions;
+      return (
+        song.album.toLowerCase().includes(album.toLowerCase()) &&
+        song.artist.toLowerCase().includes(artist.toLowerCase()) &&
+        song.genre.toLowerCase().includes(genre.toLowerCase()) &&
+        song.release_date.includes(releaseDate) &&
+        song.title.toLowerCase().includes(title.toLowerCase())
+      );
+    });
+    setMusicData(filteredData);
+  };
 
-  useEffect(() => {
-    const updateData = async () => {
-      const result = await axios.get('http://localhost:8000/api/music/')
-      setMusicData(result.data)
-    }
-
-    const interval = setInterval(() => {
-      updateData()
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [musicData])
+  const resetFilter = () => {
+    setMusicData([]);
+    const fetchData = async () => {
+      const result = await axios('http://localhost:8000/api/music/');
+      setMusicData(result.data);
+    };
+    fetchData();
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto mt-8">
+      <FilterData
+        filterOptions={filterOptions}
+        setFilterOptions={setFilterOptions}
+        filterData={filterData}
+        resetFilter={resetFilter}
+      />
       <table className="w-full table-auto">
         <thead>
           <tr className="text-left bg-gray-100">
@@ -43,16 +65,28 @@ const MusicTable = (filteredData, props) => {
             <th className="px-4 py-2">Genre</th>
             <th className="px-4 py-2">Release Date</th>
             <th className="px-4 py-2">Length</th>
-            <th className='px-4 py-2'>Edit</th>
-            <th className='px-4 py-2'>Delete</th>
+            <th className="px-4 py-2">Edit</th>
+            <th className="px-4 py-2">Delete</th>
           </tr>
         </thead>
         <tbody>
           {musicData.map((song) => (
-            <SongRow rowSelectedSong={song} selectedSong={song} />
+            <SongRow
+              key={song.id}
+              song={song}
+              setSelectedSong={props.setSelectedSong}
+              setIsModalOpen={setIsModalOpen}
+            />
           ))}
         </tbody>
       </table>
+      {isModalOpen && (
+        <EditSongModal
+          song={editSong}
+          isOpen={isModalOpen}
+          onClose={setHandleEdit}
+        />
+      )}
     </div>
   );
 };
