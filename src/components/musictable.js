@@ -2,18 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SongRow from './songrow';
 
-const MusicTable = (props) => {
+const MusicTable = (filteredData, props) => {
 
   const [musicData, setMusicData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios('http://localhost:8000/api/music/');
-      setMusicData(result.data);
-    };
+    if (filteredData > 0) {
+      setMusicData(filteredData)
+    } else {
+      const fetchData = async () => {
+        const result = await axios('http://localhost:8000/api/music/');
+        setMusicData(result.data);
+      };
 
-    fetchData();
-  }, []);
+      fetchData();
+    }
+  }, [filteredData]);
 
   useEffect(() => {
     const updateData = async () => {
@@ -45,7 +49,7 @@ const MusicTable = (props) => {
         </thead>
         <tbody>
           {musicData.map((song) => (
-            <SongRow selectedSong={song} />
+            <SongRow rowSelectedSong={song} selectedSong={song} />
           ))}
         </tbody>
       </table>

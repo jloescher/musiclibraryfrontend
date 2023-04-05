@@ -21,7 +21,7 @@ const FilterData = ({ setFilteredData }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-wrap items-center space-x-4">
+      <div className="flex flex-col space-y-4 items-start">
         <label htmlFor="title">Title:</label>
         <input
           type="text"

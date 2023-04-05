@@ -9,6 +9,7 @@ import FilterData from './components/filterdata';
 function App() {
 
   const [selectedSong, setSelectedSong] = useState(null);
+  const [filteredData, setFilteredData] = useState(null);
 
   const handleSongSelect = (song) => {
     setSelectedSong(song);
@@ -20,10 +21,10 @@ function App() {
       <div className='flex flex-row space-x-4 items-stretch justify-center pt-4'>
         <Card width="w-1/3">
           <AddSongForm selectedSong={selectedSong} />
-          <FilterData onSongSelect={handleSongSelect} />
+          <FilterData setFilteredData={setFilteredData} onSongSelect={handleSongSelect} />
         </Card>
         <Card width="w-1/2">
-          <MusicTable onSongSelect={handleSongSelect} />
+          <MusicTable filteredData={filteredData} onSongSelect={handleSongSelect} />
         </Card>
       </div>
 
