@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SongRow from './songrow';
 
-const MusicTable = ({ songs, setSongs, setEditSong, setSelectedSong, onSongSelect, onDelete }) => {
+const MusicTable = ({ songs, filteredSongs, setSongs, onDelete }) => {
+  const [displaySongs, setDisplaySongs] = useState([])
+
+  useEffect(() => {
+    if (filteredSongs.length > 0) {
+      setDisplaySongs(filteredSongs)
+    } else {
+      setDisplaySongs(songs)
+    }
+  }, [filteredSongs, songs])
+
   return (
-    <div className="w-full max-w-4xl mx-auto mt-8">
+    <div className="w-full px-4">
       <table className="w-full table-auto">
         <thead>
           <tr className="text-left bg-gray-100">
@@ -18,14 +28,11 @@ const MusicTable = ({ songs, setSongs, setEditSong, setSelectedSong, onSongSelec
           </tr>
         </thead>
         <tbody>
-          {songs.map((song) => (
+          {displaySongs.map((song) => (
             <SongRow
               key={song.id}
               song={song}
-              setSongs={setSongs}
-              setEditSong={setEditSong}
-              setSelectedSong={setSelectedSong}
-              onSongSelect={onSongSelect}
+              // setSongs={setSongs}
               onDelete={onDelete}
             />
           ))}

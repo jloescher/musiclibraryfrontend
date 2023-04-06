@@ -1,7 +1,7 @@
 import React from 'react';
-import EditSongModal from './editsongmodal';
+import AddUpdateSongModal from './addupdatesongmodal';
 
-const SongRow = ({ props, song, setSongs, onDelete }) => {
+const SongRow = ({ props, song, onDelete }) => {
 
   return (
     <tr>
@@ -12,7 +12,7 @@ const SongRow = ({ props, song, setSongs, onDelete }) => {
       <td className="px-6 py-4 whitespace-nowrap">{song.release_date}</td>
       <td className="px-6 py-4 whitespace-nowrap">{((song.length) / 60).toFixed(2)}</td>
       <td className="px-4 py-2">
-        <EditSongModal song={song} setSongs={setSongs} />
+        <AddUpdateSongModal song={song} selectedSong={song} />
       </td>
       <td className="px-4 py-2">
         <button
