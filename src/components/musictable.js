@@ -32,7 +32,6 @@ const MusicTable = ({ songs, filteredSongs, setSongs, onDelete }) => {
             <SongRow
               key={song.id}
               song={song}
-              // setSongs={setSongs}
               onDelete={onDelete}
             />
           ))}

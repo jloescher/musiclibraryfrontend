@@ -156,12 +156,12 @@ const AddUpdateSongModal = ({ selectedSong }) => {
                       />
 
                       {/* TODO: Need to identify why the DatePicker Breaks the API submission <DatePicker
-        id="release_date"
-        selected={releaseDate}
-        onChange={(date) => setReleaseDate(moment(date).format("YYYY-MM-DD"))}
-        dateFormat={FORMAT}
-        className="px-2 py-1 border rounded w-full"
-      /> */}
+                          id="release_date"
+                          selected={releaseDate}
+                          onChange={(date) => setReleaseDate(moment(date).format("YYYY-MM-DD"))}
+                          dateFormat={FORMAT}
+                          className="px-2 py-1 border rounded w-full"
+                        /> */}
 
                       <label htmlFor="length">Length (in Seconds):</label>
                       <input
