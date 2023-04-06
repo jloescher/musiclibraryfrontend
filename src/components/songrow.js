@@ -1,6 +1,7 @@
 import React from 'react';
+import EditSongModal from './editsongmodal';
 
-const SongRow = ({ props, song, onSongSelect, onDelete }) => {
+const SongRow = ({ props, song, setSongs, onDelete }) => {
 
   return (
     <tr>
@@ -11,12 +12,7 @@ const SongRow = ({ props, song, onSongSelect, onDelete }) => {
       <td className="px-6 py-4 whitespace-nowrap">{song.release_date}</td>
       <td className="px-6 py-4 whitespace-nowrap">{((song.length) / 60).toFixed(2)}</td>
       <td className="px-4 py-2">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => onSongSelect(song)}
-        >
-          Edit
-        </button>
+        <EditSongModal song={song} setSongs={setSongs} />
       </td>
       <td className="px-4 py-2">
         <button

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Modal from './modal';
 
-const AddSongModal = ({ isOpen, onClose, onAddSong }) => {
+const AddSongModal = ({ isOpen, handleClose, onAddSong }) => {
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
   const [album, setAlbum] = useState('');
@@ -15,11 +15,11 @@ const AddSongModal = ({ isOpen, onClose, onAddSong }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onAddSong({ title, artist, album, genre });
-    onClose();
+    handleClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal modelTitle="Add Song" buttonText="Add">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700 font-bold mb-2">
@@ -78,7 +78,7 @@ const AddSongModal = ({ isOpen, onClose, onAddSong }) => {
           </button>
         </div>
       </form>
-    </Modal>
+    </Modal >
   );
 };
 
